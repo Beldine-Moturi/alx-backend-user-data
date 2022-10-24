@@ -3,9 +3,23 @@
 import re
 import logging
 from typing import List
+from os import getenv
+import mysql.connector
 
 
 PII_FIELDS = ("name", "email", "phone", "ssn", "password")
+
+
+def get_db() -> mysql.connector.connection.MySQLConnection:
+    """Returns a connector to MySQL database."""
+    my_db = mysql.connector.connect(
+        host=getenv("PERSONAL_DATA_DB_HOST"),
+        user=getenv("PERSONAL_DATA_DB_USERNAME"),
+        password=getenv("PERSONAL_DATA_DB_PASSWORD"),
+        database=getenv("PERSONAL_DATA_DB_NAME"),
+        auth_plugin='mysql_native_password'
+    )
+    return my_db
 
 
 def filter_datum(
