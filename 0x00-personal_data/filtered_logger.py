@@ -22,6 +22,19 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
     return my_db
 
 
+def main() -> None:
+    """Display all rows in the user table of a database."""
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("SELECT * FROM users;")
+    message = cursor
+    logger = get_logger()
+    logger.info(message)
+
+    cursor.close()
+    db.close()
+
+
 def filter_datum(
     fields: List[str], redaction: str, message: str, separator: str
 ) -> str:
@@ -79,3 +92,9 @@ def get_logger() -> logging.Logger:
     logger.addHandler(stream_handler)
 
     return logger
+
+
+if __name__ == "__main__":
+    """Execute main() function"""
+
+    main()
